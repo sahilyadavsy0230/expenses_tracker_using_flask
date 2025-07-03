@@ -1,0 +1,215 @@
+{%extends "base.html" %}
+
+{%block content%}
+
+<style>
+    .expenses-section {
+        background-color: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        margin-top: 30px;
+    }
+
+    h1 {
+        color: var(--primary-color);
+        margin-bottom: 30px;
+        font-size: 2.5rem;
+        text-align: center;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: separate; /* Use separate for border-radius on cells */
+        border-spacing: 0;
+        margin-top: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        overflow: hidden; /* Ensures rounded corners apply to content */
+    }
+
+    th, td {
+        border: 1px solid var(--border-color);
+        padding: 15px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    th {
+        background-color: var(--primary-color);
+        color: white;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+    }
+
+    tr:nth-child(even) {
+        background-color: var(--light-color);
+    }
+
+    tr:hover {
+        background-color: #e9ecef;
+        transition: background-color 0.2s ease;
+    }
+
+    .action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .edit, .delete {
+        padding: 8px 12px;
+        text-decoration: none;
+        color: white;
+        border-radius: 5px;
+        font-size: 0.9rem;
+        display: inline-flex;
+        align-items: center;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .edit {
+        background-color: var(--secondary-color);
+    }
+
+    .edit:hover {
+        background-color: #218838;
+        transform: translateY(-2px);
+    }
+
+    .delete {
+        background-color: var(--danger-color);
+    }
+
+    .delete:hover {
+        background-color: #c82333;
+        transform: translateY(-2px);
+    }
+
+    .edit i, .delete i {
+        margin-right: 5px;
+    }
+
+    .add-expense-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--primary-color);
+        color: white;
+        padding: 12px 25px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 1.1rem;
+        font-weight: 500;
+        margin-top: 30px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+    }
+
+    .add-expense-btn:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3);
+    }
+
+    .add-expense-btn i {
+        margin-right: 10px;
+    }
+
+    @media (max-width: 768px) {
+        table, thead, tbody, th, td, tr {
+            display: block;
+        }
+        thead tr {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+        }
+        tr {
+            border: 1px solid var(--border-color);
+            margin-bottom: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        td {
+            border: none;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            padding-left: 50%;
+            text-align: right;
+        }
+        td:last-child {
+            border-bottom: none;
+        }
+        td:before {
+            position: absolute;
+            top: 0;
+            left: 6px;
+            width: 45%;
+            padding-right: 10px;
+            white-space: nowrap;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        td:nth-of-type(1):before { content: "Category"; }
+        td:nth-of-type(2):before { content: "Amount"; }
+        td:nth-of-type(3):before { content: "Note"; }
+        td:nth-of-type(4):before { content: "Date"; }
+        td:nth-of-type(5):before { content: "Action"; }
+
+        .action-buttons {
+            justify-content: flex-end;
+            padding-top: 10px;
+        }
+    }
+</style>
+
+<div class="expenses-section">
+    <h1><i class="fas fa-list-alt"></i> All Expenses</h1>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for mes in messages %}
+                <div class="flash-message">
+                    {{ mes }}
+                    <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Amount</th>
+                <th>Note</th>
+                <th>Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for i in data%}
+            <tr>
+                <td>{{i.1}}</td>
+                <td>₹ {{i.2}}</td>
+                <td>{{i.3}}</td>
+                <td>{{i.4}}</td>
+                <td class="action-buttons">
+                    <a href="edit/{{i.0}}" class="edit"><i class="fas fa-edit"></i> Edit</a>
+                    <a href="delete/{{i.0}}" class="delete" onclick="return confirm('Are you sure you want to delete this expense?');"><i class="fas fa-trash-alt"></i> Delete</a>
+                </td>
+            </tr>
+            {%else%}
+            <tr>
+                <td colspan="5">No expenses recorded yet.</td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+    <br>
+    <a href="{{url_for('add')}}" class="add-expense-btn"><i class="fas fa-plus-circle"></i> Add New Expense</a>
+</div>
+{%endblock%}

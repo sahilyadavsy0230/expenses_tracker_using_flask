@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Expense Tracker{% endblock %}
+
+{% block content %}
+    <style>
+        .hero-section {
+            background: linear-gradient(rgba(0, 123, 255, 0.7), rgba(0, 123, 255, 0.7)), url('https://via.placeholder.com/1500x500/007bff/ffffff?text=Expense+Tracker+Background') no-repeat center center/cover;
+            color: white;
+            padding: 80px 20px;
+            border-radius: 10px;
+            margin-bottom: 50px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .hero-section h1 {
+            color: white;
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-section p.lead {
+            color: white;
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto 40px auto;
+            line-height: 1.6;
+        }
+
+        .features-section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .feature-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 30px;
+            width: 300px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .feature-card i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            color: var(--dark-color);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .feature-card p {
+            color: var(--text-color);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 60px 15px;
+            }
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+            .hero-section p.lead {
+                font-size: 1.2rem;
+            }
+            .feature-card {
+                width: 100%;
+            }
+        }
+    </style>
+
+    <div class="hero-section">
+        <h1>Welcome to Expense Tracker</h1>
+        <p class="lead">Take control of your finances. Easily track, manage, and analyze your spending habits to achieve your financial goals.</p>
+        <div class="cta-buttons">
+            <a href="{{url_for('expenses')}}" class="btn"><i class="fas fa-money-bill-wave"></i> Go to Expenses</a>
+            <a href="{{url_for('dashboard')}}" class="btn btn-success"><i class="fas fa-chart-pie"></i> View Dashboard</a>
+        </div>
+    </div>
+
+    <section class="features-section">
+        <div class="feature-card">
+            <i class="fas fa-plus-circle"></i>
+            <h3>Easy Expense Entry</h3>
+            <p>Quickly add new expenses with categories, amounts, and notes. Keep your records up-to-date effortlessly.</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-chart-bar"></i>
+            <h3>Insightful Dashboard</h3>
+            <p>Visualize your spending with a comprehensive dashboard showing total expenses and category-wise breakdowns.</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-history"></i>
+            <h3>Detailed History</h3>
+            <p>View a complete history of all your transactions. Edit or delete entries as needed for accurate tracking.</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-lock"></i>
+            <h3>Secure & Private</h3>
+            <p>Your financial data is kept secure with user authentication. Only you can access your expense records.</p>
+        </div>
+    </section>
+
+{% endblock %}

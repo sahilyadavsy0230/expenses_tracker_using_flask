@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | Expense Tracker{% endblock %}
+
+{% block content %}
+<style>
+    .dashboard-section {
+        background-color: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        margin-top: 30px;
+        text-align: left;
+    }
+
+    h1 {
+        color: var(--primary-color);
+        margin-bottom: 30px;
+        font-size: 2.8rem;
+        text-align: center;
+    }
+
+    .welcome-message {
+        text-align: center;
+        margin-bottom: 40px;
+        font-size: 1.5rem;
+        color: var(--dark-color);
+    }
+
+    .summary-cards {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px;
+        margin-bottom: 50px;
+    }
+
+    .card {
+        background-color: #f0f8ff;
+        border-left: 5px solid var(--primary-color);
+        border-radius: 8px;
+        padding: 25px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        text-align: center;
+        flex: 1;
+        min-width: 280px;
+        max-width: 350px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.12);
+    }
+
+    .card h2 {
+        color: var(--primary-color);
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+    }
+
+    .card .amount {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--secondary-color);
+    }
+
+    .category-table-section {
+        margin-top: 40px;
+        text-align: center;
+    }
+
+    .category-table-section h3 {
+        color: var(--primary-color);
+        margin-bottom: 25px;
+        font-size: 2rem;
+    }
+
+    .category-table-section img {
+        max-width: 100%;
+        height: auto;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        border-radius: 10px;
+    }
+
+    .dashboard-actions {
+        margin-top: 50px;
+        text-align: center;
+    }
+
+    .dashboard-actions .btn {
+        margin: 0 15px;
+    }
+</style>
+
+<div class="dashboard-section">
+    <h1 class="welcome-message"><i class="fas fa-tachometer-alt"></i> Welcome, {{ session['username'] }}!</h1>
+
+    <div class="summary-cards">
+        <div class="card">
+            <h2>Total Expenses</h2>
+            <p class="amount">₹ {{ sum_amount if sum_amount is not none else 0 }}</p>
+        </div>
+
+        <div class="card">
+            <h2>Expenses This Month</h2>
+            <p class="amount">₹ {{this_month_total}}</p> <!-- Optional: Add logic for current month's expenses -->
+        </div>
+
+        <div class="card">
+            <h2>Average Daily Spend</h2>
+            <p class="amount">₹ {{ avg_daily_expense }}</p>
+        </div>
+    </div>
+
+    <hr style="margin: 40px auto; border: 0; border-top: 1px solid var(--border-color); width: 80%;">
+
+    <div class="category-table-section">
+        <h3><i class="fas fa-chart-bar"></i> Expenses by Category</h3>
+        {% if chart_path %}
+            <img src="{{ url_for('static', filename='charts/' + session['user_id']|string + '_chart.png') }}" alt="Expenses Chart">
+
+        {% else %}
+            <p>No category-wise expenses available.</p>
+        {% endif %}
+    </div>
+
+    <div class="dashboard-actions">
+        <a href="{{ url_for('add') }}" class="btn btn-success"><i class="fas fa-plus-circle"></i> Add New Expense</a>
+        <a href="{{ url_for('expenses') }}" class="btn"><i class="fas fa-list-alt"></i> View All Expenses</a>
+    </div>
+</div>
+{% endblock %}
