@@ -39,25 +39,25 @@ This is a **personal expense tracker web app** built using **Flask**, **MySQL**,
 - **Security:** bcrypt
 
 
-🛠️ 3. Setup MySQL Database via phpMyAdmin
-Go to http://localhost/phpmyadmin
+ ## Setup MySQL Database via phpMyAdmin
 
-Create a database named: user_db
+1. Open your browser and go to:
+   http://localhost/phpmyadmin
 
-Create registration table:
-sql
-Copy
-Edit
+2. Create a new database:
+   Database Name: user_db
+
+3. Run the following SQL to create the registration table:
+
 CREATE TABLE registration (
     id INT AUTO_INCREMENT PRIMARY KEY,
     Username VARCHAR(100),
     Email VARCHAR(100) UNIQUE,
     Password VARCHAR(255)
 );
-Create expenses table:
-sql
-Copy
-Edit
+
+4. Run the following SQL to create the expenses table:
+
 CREATE TABLE expenses (
     id INT AUTO_INCREMENT PRIMARY KEY,
     category VARCHAR(100),
